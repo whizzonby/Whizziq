@@ -81,6 +81,7 @@ return [
         'secret_key' => env('STRIPE_SECRET_KEY'),
         'publishable_key' => env('STRIPE_PUBLISHABLE_KEY'),
         'webhook_signing_secret' => env('STRIPE_WEBHOOK_SIGNING_SECRET'),
+        'connect_client_id' => env('STRIPE_CONNECT_CLIENT_ID'), // For OAuth Connect
     ],
 
     'paddle' => [
@@ -103,6 +104,38 @@ return [
         'sid' => env('TWILIO_SID'),
         'token' => env('TWILIO_TOKEN'),
         'from' => env('TWILIO_FROM'),
+    ],
+
+    'zoom' => [
+        'client_id' => env('ZOOM_CLIENT_ID'),
+        'client_secret' => env('ZOOM_CLIENT_SECRET'),
+        'redirect_uri' => env('ZOOM_REDIRECT_URI', env('APP_URL') . '/zoom/callback'),
+    ],
+
+    'tawkto' => [
+        'property_id' => env('TAWKTO_PROPERTY_ID'),
+        'widget_id' => env('TAWKTO_WIDGET_ID'),
+        'enabled' => env('TAWKTO_ENABLED', true),
+    ],
+
+    'openai' => [
+        'key' => env('OPENAI_API_KEY'),
+        'organization' => env('OPENAI_ORGANIZATION'),
+        'model' => env('OPENAI_MODEL', 'gpt-4'),
+    ],
+
+    // Financial Platform Integrations
+    'quickbooks' => [
+        'client_id' => env('QUICKBOOKS_CLIENT_ID'),
+        'client_secret' => env('QUICKBOOKS_CLIENT_SECRET'),
+        'redirect_uri' => env('QUICKBOOKS_REDIRECT_URI', env('APP_URL') . '/finance/oauth/quickbooks/callback'),
+        'environment' => env('QUICKBOOKS_ENVIRONMENT', 'sandbox'), // 'sandbox' or 'production'
+    ],
+
+    'xero' => [
+        'client_id' => env('XERO_CLIENT_ID'),
+        'client_secret' => env('XERO_CLIENT_SECRET'),
+        'redirect_uri' => env('XERO_REDIRECT_URI', env('APP_URL') . '/finance/oauth/xero/callback'),
     ],
 
 ];

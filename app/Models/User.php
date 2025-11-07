@@ -170,6 +170,57 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail, Two
 
     }
 
+    /**
+     * Check if user can create a model based on plan limits
+     */
+    public function canCreate(string $modelClass, string $metadataKey): bool
+    {
+        // Admins bypass all limits
+        if ($this->isAdmin()) {
+            return true;
+        }
+
+        $metadata = $this->subscriptionProductMetadata();
+        
+        // No metadata = no access (safety)
+        if (empty($metadata)) {
+            return false;
+        }
+        
+        $limit = $metadata[$metadataKey] ?? '0';
+        
+        // Unlimited = allow
+        if ($limit === 'unlimited') {
+            return true;
+        }
+        
+        // Count existing records
+        $current = $modelClass::where('user_id', $this->id)->count();
+        
+        // Check limit
+        return $current < (int)$limit;
+    }
+
+    /**
+     * Check if user has a feature enabled
+     */
+    public function hasFeature(string $metadataKey): bool
+    {
+        // Admins have all features
+        if ($this->isAdmin()) {
+            return true;
+        }
+
+        $metadata = $this->subscriptionProductMetadata();
+        
+        if (empty($metadata)) {
+            return false;
+        }
+        
+        $value = $metadata[$metadataKey] ?? 'false';
+        return in_array(strtolower($value), ['true', '1', 'yes']);
+    }
+
     public function sendEmailVerificationNotification()
     {
         $this->notify(new QueuedVerifyEmail);
@@ -178,5 +229,52 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail, Two
     public function address(): HasOne
     {
         return $this->hasOne(Address::class);
+    }
+
+    public function bookingSetting(): HasOne
+    {
+        return $this->hasOne(BookingSetting::class);
+    }
+
+    public function businessProfile(): HasOne
+    {
+        return $this->hasOne(BusinessProfile::class);
+    }
+
+    // Tax & Compliance Relationships
+    public function taxSetting(): HasOne
+    {
+        return $this->hasOne(TaxSetting::class);
+    }
+
+    public function taxPeriods(): HasMany
+    {
+        return $this->hasMany(TaxPeriod::class);
+    }
+
+    public function taxReports(): HasMany
+    {
+        return $this->hasMany(TaxReport::class);
+    }
+
+    // Email Communication Relationships
+    public function emailTemplates(): HasMany
+    {
+        return $this->hasMany(EmailTemplate::class);
+    }
+
+    public function emailCampaigns(): HasMany
+    {
+        return $this->hasMany(EmailCampaign::class);
+    }
+
+    public function emailLogs(): HasMany
+    {
+        return $this->hasMany(EmailLog::class);
+    }
+
+    public function onboardingData(): HasOne
+    {
+        return $this->hasOne(OnboardingData::class);
     }
 }

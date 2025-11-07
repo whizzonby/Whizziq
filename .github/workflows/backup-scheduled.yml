@@ -1,0 +1,77 @@
+name: Scheduled Backup
+
+on:
+  schedule:
+    # Run daily at 2 AM UTC
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+
+jobs:
+  backup:
+    name: Create Production Backup
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup MySQL Client
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y mysql-client lftp
+
+      - name: Backup Database
+        env:
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_DATABASE: ${{ secrets.DB_DATABASE }}
+          DB_USERNAME: ${{ secrets.DB_USERNAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        run: |
+          mkdir -p backups
+          mysqldump -h $DB_HOST -u $DB_USERNAME -p$DB_PASSWORD $DB_DATABASE > backups/database-$(date +%Y%m%d-%H%M%S).sql
+
+      - name: Backup Files via FTP
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+          FTP_PROTOCOL: ${{ secrets.FTP_PROTOCOL || 'ftp' }}
+          FTP_PORT: ${{ secrets.FTP_PORT || '21' }}
+          REMOTE_PATH: ${{ secrets.FTP_DEPLOY_PATH }}
+        run: |
+          BACKUP_NAME="backup-$(date +%Y%m%d-%H%M%S)"
+          mkdir -p backups/$BACKUP_NAME
+          
+          lftp -c "
+          set ftp:ssl-allow no;
+          open -u $FTP_USERNAME,$FTP_PASSWORD $FTP_PROTOCOL://$FTP_SERVER:$FTP_PORT;
+          cd $REMOTE_PATH;
+          mirror --verbose --exclude-glob='storage/logs/**' --exclude-glob='storage/framework/cache/**' --exclude-glob='node_modules/**' . backups/$BACKUP_NAME/;
+          quit;
+          "
+
+      - name: Create Backup Archive
+        run: |
+          cd backups
+          tar -czf backup-$(date +%Y%m%d-%H%M%S).tar.gz *
+          rm -rf database-*.sql backup-*/
+
+      - name: Upload Backup to Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: production-backup-$(date +%Y%m%d)
+          path: backups/*.tar.gz
+          retention-days: 30
+
+      - name: Upload to S3 (Optional)
+        if: ${{ secrets.BACKUP_S3_BUCKET != '' }}
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_REGION || 'us-east-1' }}
+          S3_BUCKET: ${{ secrets.BACKUP_S3_BUCKET }}
+        run: |
+          aws s3 cp backups/*.tar.gz s3://$S3_BUCKET/backups/ || echo "S3 upload failed"
+

@@ -1,0 +1,29 @@
+<?php
+
+namespace App\Filament\Dashboard\Resources\Traits;
+
+use App\Models\User;
+
+trait HasSubscriptionAccess
+{
+    /**
+     * Check if user has active subscription OR is on trial
+     * 
+     * FEATURE GATING DISABLED - Always returns true
+     */
+    protected static function hasSubscriptionAccess(?User $user = null): bool
+    {
+        return true;
+    }
+
+    /**
+     * Check if user has a specific feature
+     * 
+     * FEATURE GATING DISABLED - Always returns true
+     */
+    protected static function hasFeatureAccess(string $featureKey, ?User $user = null): bool
+    {
+        return true;
+    }
+}
+

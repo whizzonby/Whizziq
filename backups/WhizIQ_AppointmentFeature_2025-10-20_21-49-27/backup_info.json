@@ -1,0 +1,23 @@
+{
+  "backup_name": "WhizIQ_AppointmentFeature_2025-10-20_21-49-27",
+  "timestamp": "2025-10-20_21-49-27",
+  "project_name": "WhizIQ",
+  "appointment_feature": true,
+  "backup_type": "appointment_feature_backup",
+  "created_by": "WhizIQ Backup Script",
+  "version": "1.0",
+  "description": "Complete backup of WhizIQ project with appointment functionality",
+  "features_included": [
+    "Appointment Calendar",
+    "Livewire Components",
+    "Database Models",
+    "Views and Templates",
+    "Configuration Files",
+    "Test Suite"
+  ],
+  "appointment_components": [
+    "App\\Livewire\\Calendar\\AppointmentCalendar.php",
+    "App\\Models\\Appointment.php",
+    "resources\\views\\livewire\\calendar\\appointment-calendar.blade.php"
+  ]
+}

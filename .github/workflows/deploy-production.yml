@@ -1,0 +1,246 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      skip_tests:
+        description: 'Skip tests before deployment'
+        required: false
+        default: 'false'
+        type: boolean
+
+env:
+  PHP_VERSION: '8.2'
+
+jobs:
+  test:
+    name: Run Tests Before Deployment
+    runs-on: ubuntu-latest
+    if: github.event.inputs.skip_tests != 'true'
+    
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: testing
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ env.PHP_VERSION }}
+          extensions: mbstring, xml, bcmath, pdo_mysql, redis, gd, imagick
+
+      - name: Copy .env
+        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+
+      - name: Install Dependencies
+        run: composer install --prefer-dist --no-progress --no-interaction
+
+      - name: Generate key
+        run: php artisan key:generate
+
+      - name: Directory Permissions
+        run: chmod -R 775 storage bootstrap/cache
+
+      - name: Create Database
+        run: |
+          mysql --host 127.0.0.1 --port 3306 -uroot -ppassword -e "CREATE DATABASE IF NOT EXISTS testing;"
+
+      - name: Execute tests
+        env:
+          DB_CONNECTION: mysql
+          DB_HOST: 127.0.0.1
+          DB_PORT: 3306
+          DB_DATABASE: testing
+          DB_USERNAME: root
+          DB_PASSWORD: password
+        run: vendor/bin/phpunit
+
+  build:
+    name: Build Application
+    runs-on: ubuntu-latest
+    needs: test
+    if: always() && (needs.test.result == 'success' || github.event.inputs.skip_tests == 'true')
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install NPM dependencies
+        run: npm ci
+
+      - name: Build production assets
+        run: npm run build
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ env.PHP_VERSION }}
+          extensions: mbstring, xml, bcmath, pdo_mysql, redis, gd, imagick
+
+      - name: Install Composer dependencies (production)
+        run: composer install --no-dev --prefer-dist --optimize-autoloader --no-progress --no-interaction
+
+      - name: Create deployment package
+        run: |
+          mkdir -p deploy-package
+          # Copy necessary files
+          rsync -av --progress \
+            --exclude='.git' \
+            --exclude='.github' \
+            --exclude='node_modules' \
+            --exclude='tests' \
+            --exclude='.env' \
+            --exclude='.env.example' \
+            --exclude='.phpunit.cache' \
+            --exclude='storage/logs/*' \
+            --exclude='storage/framework/cache/*' \
+            --exclude='storage/framework/sessions/*' \
+            --exclude='storage/framework/views/*' \
+            --exclude='.idea' \
+            --exclude='.vscode' \
+            --exclude='*.md' \
+            --exclude='backups' \
+            --exclude='docker' \
+            --exclude='docker-compose.yml' \
+            --exclude='deploy.php' \
+            . deploy-package/
+
+      - name: Create deployment archive
+        run: |
+          cd deploy-package
+          tar -czf ../deployment-$(date +%Y%m%d-%H%M%S).tar.gz .
+          cd ..
+
+      - name: Upload deployment package
+        uses: actions/upload-artifact@v4
+        with:
+          name: deployment-package
+          path: deployment-*.tar.gz
+          retention-days: 7
+
+  deploy:
+    name: Deploy to Production (cPanel)
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: production
+      url: ${{ secrets.PRODUCTION_URL }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download deployment package
+        uses: actions/download-artifact@v4
+        with:
+          name: deployment-package
+          path: ./artifacts
+
+      - name: Extract deployment package
+        run: |
+          cd artifacts
+          tar -xzf deployment-*.tar.gz
+          cd ..
+
+      - name: Create backup on server
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ${{ secrets.FTP_PROTOCOL || 'ftp' }}
+          port: ${{ secrets.FTP_PORT || '21' }}
+          local-dir: ./scripts/
+          server-dir: ${{ secrets.FTP_DEPLOY_PATH }}/backups/
+          dangerous-clean-slate: false
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+
+      - name: Deploy to production via FTP/SFTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ${{ secrets.FTP_PROTOCOL || 'ftp' }}
+          port: ${{ secrets.FTP_PORT || '21' }}
+          local-dir: ./artifacts/
+          server-dir: ${{ secrets.FTP_DEPLOY_PATH }}
+          dangerous-clean-slate: false
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            **/.env
+            **/storage/logs/**
+            **/storage/framework/cache/**
+            **/storage/framework/sessions/**
+            **/storage/framework/views/**
+
+      - name: Run post-deployment commands
+        uses: appleboy/ssh-action@v1.0.3
+        if: ${{ secrets.SSH_HOST != '' }}
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT || 22 }}
+          script: |
+            cd ${{ secrets.FTP_DEPLOY_PATH }}
+            php artisan config:cache
+            php artisan route:cache
+            php artisan view:cache
+            php artisan event:cache
+            php artisan migrate --force
+            php artisan queue:restart || true
+            php artisan horizon:terminate || true
+
+      - name: Create deployment tag
+        if: startsWith(github.ref, 'refs/heads/main')
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag -a "deploy-$(date +%Y%m%d-%H%M%S)" -m "Deployed to production"
+          git push origin --tags || true
+
+  notify:
+    name: Notify Deployment Status
+    runs-on: ubuntu-latest
+    needs: [test, build, deploy]
+    if: always()
+
+    steps:
+      - name: Deployment Success
+        if: needs.deploy.result == 'success'
+        run: |
+          echo "✅ Deployment successful!"
+          # Add notification logic here (Slack, Discord, Email, etc.)
+
+      - name: Deployment Failed
+        if: needs.deploy.result == 'failure'
+        run: |
+          echo "❌ Deployment failed!"
+          # Add notification logic here
+

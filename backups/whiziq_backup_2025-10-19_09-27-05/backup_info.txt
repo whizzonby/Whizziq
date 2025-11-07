@@ -1,0 +1,26 @@
+﻿WhizIQ Backup Information
+========================
+Backup Date: 2025-10-19 09:27:10
+Backup Type: File System Backup
+Source: WhizIQ Laravel Application
+
+Contents:
+- Application code (app/)
+- Configuration files (config/)
+- Database migrations (database/)
+- Resources (resources/)
+- Routes (routes/)
+- Public assets (public/)
+- Storage (storage/app/)
+- Tests (tests/)
+- Language files (lang/)
+- Dependencies (composer.json, package.json)
+
+Restore Instructions:
+1. Copy all files to your new Laravel project directory
+2. Run: composer install
+3. Run: npm install
+4. Copy .env.example to .env and configure
+5. Run: php artisan key:generate
+6. Run: php artisan migrate
+7. Run: php artisan storage:link

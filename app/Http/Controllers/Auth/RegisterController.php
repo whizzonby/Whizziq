@@ -42,6 +42,18 @@ class RegisterController extends Controller
 
     public function redirectPath()
     {
+        $user = auth()->user();
+        
+        // Admins skip email verification and onboarding
+        if ($user && $user->is_admin) {
+            return Redirect::getIntendedUrl() ?? route('filament.admin.pages.dashboard');
+        }
+        
+        // Redirect to email verification page if email not verified (non-admins only)
+        if ($user && ! $user->hasVerifiedEmail()) {
+            return route('verification.notice');
+        }
+
         return Redirect::getIntendedUrl() ?? route('home');
     }
 

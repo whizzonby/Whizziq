@@ -20,3 +20,9 @@ yarn-error.log
 .idea
 /.vscode
 .DS_Store
+
+# Deployment artifacts
+deploy-package/
+deployment-*.tar.gz
+*.tar.gz
+!backups/*.tar.gz

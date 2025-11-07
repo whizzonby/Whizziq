@@ -20,7 +20,7 @@
             <ul class="flex flex-col gap-3 flex-wrap justify-center items-center">
                 @if($product->features)
                     @foreach($product->features as $feature)
-                        <x-features.li-item class="text-left">{{$feature['feature']}}</x-features.li-item>
+                        <x-features.li-item class="text-left">{{ is_array($feature) ? $feature['feature'] : $feature }}</x-features.li-item>
                     @endforeach
                 @endif
             </ul>

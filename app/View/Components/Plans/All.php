@@ -79,9 +79,11 @@ class All extends Component
     private function groupPlans(Collection $plans): array
     {
         $arrayPlans = $plans->all();
-        // sort by price
+        // sort by price (handle null prices gracefully)
         usort($arrayPlans, function ($a, $b) {
-            return $a->prices->first()->price <=> $b->prices->first()->price;
+            $priceA = $a->prices->first()?->price ?? 0;
+            $priceB = $b->prices->first()?->price ?? 0;
+            return $priceA <=> $priceB;
         });
 
         // group plans by interval

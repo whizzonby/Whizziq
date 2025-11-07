@@ -55,5 +55,9 @@ class AppServiceProvider extends ServiceProvider
         FilamentAsset::register([
             Js::make('components-script', __DIR__.'/../../resources/js/components.js'),
         ]);
+
+        // Register observers
+        \App\Models\Appointment::observe(\App\Observers\AppointmentObserver::class);
+        \App\Models\PasswordVault::observe(\App\Observers\PasswordVaultObserver::class);
     }
 }

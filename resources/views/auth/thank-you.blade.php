@@ -15,9 +15,16 @@
                 </div>
 
                 <p>
-                    {{ __('Your account is successfully registered. Head to the home page to get started.') }}
+                    {{ __('Your account is successfully registered. Let\'s complete your onboarding to get started.') }}
 
-                    <x-button-link.primary class="inline-block w-full! mt-6" href="{{ route('home') }}">
+                    @php
+                        $user = auth()->user();
+                        $onboardingUrl = $user && !$user->onboardingData 
+                            ? route('filament.dashboard.pages.onboarding') 
+                            : route('filament.dashboard.pages.dashboard');
+                    @endphp
+
+                    <x-button-link.primary class="inline-block w-full! mt-6" href="{{ $onboardingUrl }}">
                         {{ __('Continue') }}
                     </x-button-link.primary>
                 </p>

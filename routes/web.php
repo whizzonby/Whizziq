@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\OAuthController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\PageController;
 use App\Http\Controllers\PaymentProviders\PaddleController;
 use App\Http\Controllers\RoadmapController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -60,8 +61,16 @@ Route::post('/email/verification-notification', function (\Illuminate\Http\Reque
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
 Route::get('/registration/thank-you', function () {
+    $user = auth()->user();
+    
+    // If email not verified, redirect to verification
+    if (! $user->hasVerifiedEmail()) {
+        return redirect()->route('verification.notice');
+    }
+    
+    // Mandatory onboarding middleware will handle redirect if not completed
     return view('auth.thank-you');
-})->middleware('auth')->name('registration.thank-you');
+})->middleware(['auth', 'verified'])->name('registration.thank-you');
 
 Route::get('/auth/{provider}/redirect', [OAuthController::class, 'redirect'])
     ->where('provider', 'google|github|facebook|twitter-oauth-2|linkedin-openid|bitbucket|gitlab')
@@ -124,13 +133,25 @@ Route::controller(BlogController::class)
         Route::get('/{slug}', 'view')->name('blog.view');
     });
 
-Route::get('/terms-of-service', function () {
-    return view('pages.terms-of-service');
-})->name('terms-of-service')->middleware('sitemapped');
+// Dynamic page routes (Policy pages, etc.)
+// Old static routes kept as comments for reference:
+// Route::get('/terms-of-service', function () { return view('pages.terms-of-service'); });
+// Route::get('/privacy-policy', function () { return view('pages.privacy-policy'); });
 
-Route::get('/privacy-policy', function () {
-    return view('pages.privacy-policy');
-})->name('privacy-policy')->middleware('sitemapped');
+Route::get('/terms-of-service', [PageController::class, 'show'])
+    ->defaults('slug', 'terms-of-service')
+    ->name('terms-of-service')
+    ->middleware('sitemapped');
+
+Route::get('/privacy-policy', [PageController::class, 'show'])
+    ->defaults('slug', 'privacy-policy')
+    ->name('privacy-policy')
+    ->middleware('sitemapped');
+
+// Dynamic catch-all route for other pages (cookie-policy, etc.)
+Route::get('/page/{slug}', [PageController::class, 'show'])
+    ->name('page.show')
+    ->middleware('sitemapped');
 
 // Product checkout routes
 
@@ -172,3 +193,20 @@ Route::controller(InvoiceController::class)
         Route::get('/generate/{transactionUuid}', 'generate')->name('invoice.generate');
         Route::get('/preview', 'preview')->name('invoice.preview');
     });
+
+// Public Booking Page
+
+Route::get('/book/{slug}', \App\Livewire\PublicBooking::class)->name('booking.public');
+
+// Appointment Calendar Download
+
+Route::get('/appointment/{token}/calendar.ics', [
+    App\Http\Controllers\AppointmentCalendarController::class,
+    'downloadICS',
+])->name('appointment.calendar.download');
+
+// ClientInvoice PDF Download
+Route::get('/invoice/{invoice}/download-pdf', [
+    App\Http\Controllers\InvoiceController::class,
+    'downloadClientInvoicePDF',
+])->name('invoice.download-pdf')->middleware('auth');

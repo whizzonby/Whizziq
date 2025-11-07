@@ -32,7 +32,8 @@ class UsagesRelationManager extends RelationManager
             ->recordTitleAttribute('unit_count')
             ->columns([
                 TextColumn::make('unit_count')->label(function () {
-                    return __('Unit Count').' ('.str()->plural(__($this->ownerRecord->plan->meter->name)).')';
+                    $meterName = $this->ownerRecord->plan?->meter?->name ?? __('units');
+                    return __('Unit Count').' ('.str()->plural(__($meterName)).')';
                 }),
                 TextColumn::make('created_at')->label(__('Created At'))
                     ->dateTime(config('app.datetime_format'))
@@ -53,6 +54,10 @@ class UsagesRelationManager extends RelationManager
 
     public static function canViewForRecord(Model|Subscription $ownerRecord, string $pageClass): bool
     {
+        if (!$ownerRecord->plan) {
+            return false;
+        }
+
         return $ownerRecord->plan->type === PlanType::USAGE_BASED->value;
     }
 }

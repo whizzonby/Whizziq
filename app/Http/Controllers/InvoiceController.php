@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Transaction;
+use App\Models\ClientInvoice;
 use App\Services\InvoiceService;
+use App\Services\InvoicePDFService;
 use Illuminate\Http\Request;
 use LaravelDaily\Invoices\Classes\Buyer;
 use LaravelDaily\Invoices\Classes\InvoiceItem;
@@ -67,5 +69,31 @@ class InvoiceController extends Controller
             ->addItem($item);
 
         return $invoice->stream();
+    }
+
+    /**
+     * Download ClientInvoice PDF
+     */
+    public function downloadClientInvoicePDF(ClientInvoice $invoice)
+    {
+        // Ensure user can access this invoice
+        if ($invoice->user_id !== auth()->id() && !auth()->user()->isAdmin()) {
+            abort(403, 'You do not have permission to download this invoice.');
+        }
+
+        try {
+            $pdfService = app(InvoicePDFService::class);
+            return $pdfService->download($invoice);
+        } catch (\Exception $e) {
+            \Log::error('ClientInvoice PDF download failed', [
+                'invoice_id' => $invoice->id,
+                'user_id' => auth()->id(),
+                'error' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+            ]);
+
+            abort(500, 'Failed to generate PDF. Please try again.');
+        }
     }
 }

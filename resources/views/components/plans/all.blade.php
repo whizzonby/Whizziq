@@ -41,25 +41,3 @@
 
     </x-tab-slider>
 @endif
-
-@if (isset($defaultProduct))
-    <div class="mx-4">
-        <div class="max-w-none md:max-w-6xl border border-gray-200 rounded-2xl p-8 mt-6 mx-8 md:mx-auto">
-            <div class="text-center">
-                <x-heading.h3>{{ __('Start for FREE') }}</x-heading.h3>
-                <p class="mt-4">{{ __('Start now and upgrade as you go. No credit card required!') }}</p>
-                <ul class="flex flex-wrap md:flex-nowrap flex-row items-center justify-center gap-4 mt-4">
-                    @if($defaultProduct->features)
-                        @foreach($defaultProduct->features as $feature)
-                            <x-features.li-item class="text-left">{{$feature['feature']}}</x-features.li-item>
-                        @endforeach
-                    @endif
-                </ul>
-
-                <x-button-link.primary href="{{route('register')}}" class="mt-6 px-6! py-3!">
-                    {{ __('Start Now') }}
-                </x-button-link.primary>
-            </div>
-        </div>
-    </div>
-@endif

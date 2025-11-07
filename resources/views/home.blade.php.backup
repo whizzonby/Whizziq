@@ -1,0 +1,716 @@
+<x-layouts.app>
+    <x-slot name="title">
+        {{ __('WhizIQ - Run Your Business with Confidence') }}
+    </x-slot>
+
+    <x-section.hero class="w-full mb-8 md:mb-72">
+
+        <div class="mx-auto text-center h-160 md:h-180 px-4">
+            <x-pill class="text-primary-500 bg-primary-50">{{ __('All-in-One Business Platform') }}</x-pill>
+            <x-heading.h1 class="mt-4 text-primary-50 font-bold">
+                {{ __('Intelligent Business Management') }}
+                <br class="hidden sm:block">
+                {{ __('Powered by AI') }}
+
+            </x-heading.h1>
+
+            <p class="text-primary-50 m-3">{{ __('Manage Finances, Clients, Tasks, Documents, and Appointments in One Powerful Platform') }}</p>
+
+            <div class="flex flex-wrap gap-4 justify-center flex-col md:flex-row mt-6">
+                <x-effect.glow></x-effect.glow>
+
+                <x-button-link.secondary href="#pricing" class="self-center py-3!" elementType="a">
+                    {{ __('Get WhizIQ') }}
+                </x-button-link.secondary>
+                <x-button-link.primary-outline href="//www.whiziq.com" class=" bg-transparent self-center py-3! text-white border-white" rel=”nofollow” >
+                    {{ __('Check It Out') }}
+                </x-button-link.primary-outline>
+
+            </div>
+
+            <x-user-ratings link="#testimonials" class="items-center justify-center mt-6 relative z-40">
+                <x-slot name="avatars">
+                    <x-user-ratings.avatar src="https://unsplash.com/photos/rDEOVtE7vOs/download?ixid=M3wxMjA3fDB8MXxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fHx8MTcxMzY4NDI1MHww&force=true&w=640" alt="testimonial 1"/>
+                    <x-user-ratings.avatar src="https://unsplash.com/photos/c_GmwfHBDzk/download?ixid=M3wxMjA3fDB8MXxzZWFyY2h8M3x8cGVyc29ufGVufDB8fHx8MTcxMzY4NDI1MHww&force=true&w=640" alt="testimonial 2"/>
+                    <x-user-ratings.avatar src="https://unsplash.com/photos/QXevDflbl8A/download?ixid=M3wxMjA3fDB8MXxzZWFyY2h8NHx8cGVyc29ufGVufDB8fHx8MTcxMzY4NDI1MHww&force=true&w=640" alt="testimonial 3"/>
+                    <x-user-ratings.avatar src="https://unsplash.com/photos/mjRwhvqEC0U/download?ixid=M3wxMjA3fDB8MXxzZWFyY2h8Nnx8cGVyc29ufGVufDB8fHx8MTcxMzY4NDI1MHww&force=true&w=640" alt="testimonial 4"/>
+                    <x-user-ratings.avatar src="https://unsplash.com/photos/C8Ta0gwPbQg/download?ixid=M3wxMjA3fDB8MXxzZWFyY2h8MTl8fHBlcnNvbnxlbnwwfHx8fDE3MTM2ODQyNTB8MA&force=true&w=640" alt="testimonial 5"/>
+                </x-slot>
+
+                {{ __('Join thousands of business owners managing their operations with WhizIQ.') }}
+            </x-user-ratings>
+
+            <div class="mx-auto md:max-w-3xl lg:max-w-5xl">
+                <img class="drop-shadow-2xl mt-8 transition hover:scale-101 rounded-2xl" src="{{URL::asset('/images/features/hero-image.png')}}" />
+            </div>
+
+        </div>
+    </x-section.hero>
+
+    <x-section.columns class="max-w-none md:max-w-6xl pt-16" id="features">
+        <x-section.column>
+            <div x-intersect="$el.classList.add('slide-in-top')">
+                <x-heading.h6 class="text-primary-500">
+                    {{ __('Complete Financial Control') }}
+                </x-heading.h6>
+                <x-heading.h2 class="text-primary-900">
+                    {{ __('Smart Financial Management & Tax Compliance') }}
+                </x-heading.h2>
+            </div>
+
+            <p class="mt-4">
+                {{ __('Track expenses with AI-powered auto-categorization, manage invoices and payments, monitor cash flow in real-time, and stay compliant with automated tax calculations and filing.') }}
+            </p>
+            <p class="mt-4">
+                {{ __('Get AI-driven insights on spending patterns, revenue forecasting, and financial health alerts to make informed decisions for your business.') }}
+            </p>
+        </x-section.column>
+
+        <x-section.column>
+            <img src="{{URL::asset('/images/features/payments.png')}}" dir="right" ></img>
+        </x-section.column>
+
+    </x-section.columns>
+
+    <x-section.columns class="max-w-none md:max-w-6xl  flex-wrap-reverse">
+        <x-section.column >
+            <img src="{{URL::asset('/images/features/colors.png')}}" />
+        </x-section.column>
+
+        <x-section.column>
+            <div x-intersect="$el.classList.add('slide-in-top')">
+                <x-heading.h6 class="text-primary-500">
+                    {{ __('Enterprise Document Management') }}
+                </x-heading.h6>
+                <x-heading.h2 class="text-primary-900">
+                    {{ __('Secure Document Vault with AI') }}
+                </x-heading.h2>
+            </div>
+
+            <p class="mt-4">
+                {{ __('Store, organize, and analyze documents with enterprise-grade security. AI-powered document analysis extracts key information, detects duplicates, and enables full-text search across all your files.') }}
+            </p>
+
+            <p class="mt-4">
+                {{ __('Version control, granular sharing permissions, activity audit trails, and automated document expiration policies keep your business documents secure and compliant.') }}
+            </p>
+        </x-section.column>
+
+    </x-section.columns>
+
+    <x-section.columns class="max-w-none md:max-w-6xl mt-6" >
+        <x-section.column>
+            <div x-intersect="$el.classList.add('slide-in-top')">
+                <x-heading.h6 class="text-primary-500">
+                    {{ __('Intelligent Productivity') }}
+                </x-heading.h6>
+                <x-heading.h2 class="text-primary-900">
+                    {{ __('AI-Powered Task & Goal Management') }}
+                </x-heading.h2>
+            </div>
+
+            <p class="mt-4">
+                {{ __('AI extracts action items from meeting notes and emails automatically. Visualize tasks on a kanban board, set OKR-style goals with key results, and get smart priority recommendations based on deadlines and importance.') }}
+            </p>
+
+            <p class="mt-4">
+                {{ __('Track goal progress with check-ins, receive task reminders, and link tasks to strategic goals for complete alignment across your business.') }}
+            </p>
+        </x-section.column>
+
+        <x-section.column>
+            <img src="{{URL::asset('/images/features/plans.png')}}" class="rounded-2xl"/>
+        </x-section.column>
+
+    </x-section.columns>
+
+    <x-section.columns class="max-w-none md:max-w-6xl mt-6 flex-wrap-reverse">
+        <x-section.column >
+            <img src="{{URL::asset('/images/features/checkout.png')}}" class="rounded-2xl" />
+        </x-section.column>
+
+        <x-section.column>
+            <div x-intersect="$el.classList.add('slide-in-top')">
+                <x-heading.h6 class="text-primary-500">
+                    {{ __('Seamless Scheduling') }}
+                </x-heading.h6>
+                <x-heading.h2 class="text-primary-900">
+                    {{ __('Appointment Booking & Calendar Integration') }}
+                </x-heading.h2>
+            </div>
+
+            <p class="mt-4">
+                {{ __('Let clients book appointments directly with your public booking page. Sync with Google Calendar, Outlook, and Apple Calendar. Automatic Zoom and Google Meet links for virtual meetings. Set custom availability schedules and appointment types with different durations and pricing.') }}
+            </p>
+        </x-section.column>
+
+    </x-section.columns>
+
+    <div class="text-center mt-16 mx-4" id="tech-stack">
+        <x-heading.h6 class="text-primary-500">
+            {{ __('The best of the best') }}
+        </x-heading.h6>
+        <x-heading.h2 class="text-primary-900">
+            {{ __('A solid tech stack') }}
+        </x-heading.h2>
+    </div>
+
+
+    <div class="text-center p-4 mx-auto">
+        <p >{{ __('Laravel, TailwindCSS, Livewire, AlpineJS & FilamentPhp') }}</p>
+
+        <div class="flex flex-wrap items-center justify-center gap-12 mt-8">
+            <img src="{{URL::asset('/images/tech-stack/laravel.svg')}}" class="h-10 hover:cursor-pointer hover:scale-103 hover:opacity-100 transition grayscale hover:grayscale-0 opacity-50" />
+            <img src="{{URL::asset('/images/tech-stack/filament.avif')}}" class="h-10 hover:cursor-pointer hover:scale-103 hover:opacity-100 transition grayscale hover:grayscale-0 opacity-50" />
+            <img src="{{URL::asset('/images/tech-stack/tailwindcss.svg')}}" class="h-12 hover:cursor-pointer hover:scale-103 hover:opacity-100 transition grayscale hover:grayscale-0 opacity-50" />
+            <img src="{{URL::asset('/images/tech-stack/livewire.png')}}" class="h-20 hover:cursor-pointer hover:scale-103 hover:opacity-100 transition grayscale hover:grayscale-0 opacity-50" />
+            <img src="{{URL::asset('/images/tech-stack/alpinejs.svg')}}" class="h-16 hover:cursor-pointer hover:scale-103 hover:opacity-100 transition grayscale hover:grayscale-0 opacity-50" />
+        </div>
+
+    </div>
+
+    {{--    ////////////--}}
+    {{--    Slider      --}}
+    {{--    ////////////--}}
+
+    <div class="text-center mt-16 p-4">
+        <x-heading.h6 class="text-primary-500">
+            {{ __('All Inclusive') }}
+        </x-heading.h6>
+        <x-heading.h2 class="text-primary-900">
+            {{ __('Huge list of ready-to-use components.') }}
+        </x-heading.h2>
+    </div>
+
+
+    <div class="mx-4">
+        <x-tab-slider class="mt-6 md:max-w-6xl border-2 border-neutral-100 py-8 rounded-2xl">
+            <x-slot name="tabNames">
+                <x-tab-slider.tab-name controls="tab-1" active="true">{{ __('Testimonials') }}</x-tab-slider.tab-name>
+                <x-tab-slider.tab-name controls="tab-2">{{ __('Plans & Pricing') }}</x-tab-slider.tab-name>
+                <x-tab-slider.tab-name controls="tab-3">{{ __('Hero section') }}</x-tab-slider.tab-name>
+                <x-tab-slider.tab-name controls="tab-4">{{ __('FAQ') }}</x-tab-slider.tab-name>
+                <x-tab-slider.tab-name controls="tab-5">{{ __('Call to action') }}</x-tab-slider.tab-name>
+                <x-tab-slider.tab-name controls="tab-6">{{ __('Tab slider') }}</x-tab-slider.tab-name>
+                <x-tab-slider.tab-name controls="tab-7">{{ __('and more') }}</x-tab-slider.tab-name>
+            </x-slot>
+
+            <x-tab-slider.tab-content id="tab-1">
+                <div class="text-center mt-8">
+                    <x-heading.h4 class="text-primary-900 font-semibold!">
+                        {{ __('Testimonials') }}
+                    </x-heading.h4>
+
+                    <div class="mx-auto max-w-2xl">
+                        <p class="mt-4">
+                            {{ __('Display testimonials from your customers on your website and build trust with your potential customers.') }}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="m-10 mx-auto max-w-4xl mt-12">
+                    <img src="{{URL::asset('/images/features/testimonials.png')}}" class="drop-shadow-xl rounded-2xl" />
+                </div>
+
+            </x-tab-slider.tab-content>
+
+            <x-tab-slider.tab-content id="tab-2">
+                <div class="text-center mt-8">
+                    <x-heading.h4 class="text-primary-900 font-semibold!">
+                        {{ __('Plans & Pricing Component') }}
+                    </x-heading.h4>
+
+                    <div class="mx-auto max-w-2xl">
+                        <p class="mt-4">
+                            {{ __('This component is magical in that it will read the plans you defined in your admin panel, group them, calculate potential discount amount if user chooses a longer plan, and display all that in a beautiful way for your users. ') }}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="m-10 mx-auto max-w-4xl mt-12">
+                    <img src="{{URL::asset('/images/features/plans-component.png')}}" class="drop-shadow-xl rounded-2xl" />
+                </div>
+
+            </x-tab-slider.tab-content>
+
+            <x-tab-slider.tab-content id="tab-3">
+                <div class="text-center mt-8">
+                    <x-heading.h4 class="text-primary-900 font-semibold!">
+                        {{ __('Hero section Component') }}
+                    </x-heading.h4>
+
+                    <div class="mx-auto max-w-2xl">
+                        <p class="mt-4">
+                            {{ __('A ready-to-use hero section component to display your hero image, title, and call to action button.') }}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="m-10 mx-auto max-w-4xl mt-12">
+                    <img src="{{URL::asset('/images/features/hero-component.png')}}" class="drop-shadow-xl rounded-2xl" />
+                </div>
+
+            </x-tab-slider.tab-content>
+
+            <x-tab-slider.tab-content id="tab-4">
+                <div class="text-center mt-8">
+                    <x-heading.h4 class="text-primary-900 font-semibold!">
+                        {{ __('FAQ Component') }}
+                    </x-heading.h4>
+
+                    <div class="mx-auto max-w-2xl">
+                        <p class="mt-4">
+                            {{ __('An accordion component that you can use to display your FAQ in an intuitive way.') }}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="m-10 mx-auto max-w-4xl mt-12">
+                    <img src="{{URL::asset('/images/features/faqs-component.png')}}" class="drop-shadow-xl rounded-2xl" />
+                </div>
+
+            </x-tab-slider.tab-content>
+
+            <x-tab-slider.tab-content id="tab-5">
+                <div class="text-center mt-8">
+                    <x-heading.h4 class="text-primary-900 font-semibold!">
+                        {{ __('Call to action component') }}
+                    </x-heading.h4>
+
+                    <div class="mx-auto max-w-2xl">
+                        <p class="mt-4">
+                            {{ __('A focused component the brings attention to your call to action.') }}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="m-10 mx-auto max-w-4xl mt-12">
+                    <img src="{{URL::asset('/images/features/call-to-action-component.png')}}" class="drop-shadow-xl rounded-2xl">
+                </div>
+
+            </x-tab-slider.tab-content>
+
+            <x-tab-slider.tab-content id="tab-6">
+                <div class="text-center mt-8">
+                    <x-heading.h4 class="text-primary-900 font-semibold!">
+                        {{ __('Tab Slider Component') }}
+                    </x-heading.h4>
+
+                    <div class="mx-auto max-w-2xl">
+                        <p class="mt-4">
+                            {{ __('Tab slider component displays your content in a beautiful and organized way into separate tabs.') }}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="m-10 mx-auto max-w-4xl mt-12">
+                    <img src="{{URL::asset('/images/features/tab-slider-component.png')}}" class="drop-shadow-xl rounded-2xl">
+                </div>
+
+            </x-tab-slider.tab-content>
+
+            <x-tab-slider.tab-content id="tab-7">
+
+                <div class="m-10 mx-auto max-w-4xl mt-6">
+                    <x-section.columns class="max-w-none md:max-w-6xl mt-6">
+                        <x-section.column class="flex flex-col items-center justify-center text-center">
+                            <x-icon.fancy name="nav" class="w-2/5 mx-auto" type="secondary" />
+                            <x-heading.h3 class="mx-auto pt-2">
+                                {{ __('Header & Footer') }}
+                            </x-heading.h3>
+                            <p class="mt-2">{{ __('Easily customize your header and footer.') }}</p>
+                        </x-section.column>
+
+                        <x-section.column class="flex flex-col items-center justify-center text-center">
+                            <x-icon.fancy name="button-ok" class="w-2/5 mx-auto" type="secondary" />
+                            <x-heading.h3 class="mx-auto pt-2">
+                                {{ __('Buttons') }}
+                            </x-heading.h3>
+                            <p class="mt-2">{{ __('Beautiful buttons to use in your application.') }}</p>
+                        </x-section.column>
+
+                        <x-section.column class="flex flex-col items-center justify-center text-center">
+                            <x-icon.fancy name="pill" class="w-2/5 mx-auto" type="secondary" />
+                            <x-heading.h3 class="mx-auto pt-2">
+                                {{ __('Pill') }}
+                            </x-heading.h3>
+                            <p class="mt-2">{{ __('Pills to highlight your content where you need to.') }}</p>
+                        </x-section.column>
+
+                    </x-section.columns>
+
+                    <p class="text-center mt-4">
+                        {{ __('and much more...') }}
+                    </p>
+                </div>
+
+            </x-tab-slider.tab-content>
+
+
+
+        </x-tab-slider>
+    </div>
+
+
+
+    <x-section.columns class="max-w-none md:max-w-6xl mt-12" >
+        <x-section.column>
+            <div x-intersect="$el.classList.add('slide-in-top')">
+                <x-heading.h6 class="text-primary-500">
+                    {{ __('Complete CRM & Sales Pipeline') }}
+                </x-heading.h6>
+                <x-heading.h2 class="text-primary-900">
+                    {{ __('Manage Clients & Close Deals') }}
+                </x-heading.h2>
+            </div>
+
+            <p class="mt-4">
+                {{ __('Track contacts, deals, and interactions in one place. Visualize your sales pipeline with drag-and-drop deal stages. Set automated follow-up reminders, send email campaigns, and analyze client sentiment with AI. Sync contacts from Google, Outlook, and social media platforms.') }}
+            </p>
+        </x-section.column>
+
+        <x-section.column>
+            <img src="{{URL::asset('/images/features/stats.png')}}" >
+        </x-section.column>
+
+    </x-section.columns>
+
+    <x-section.columns class="max-w-none md:max-w-6xl mt-16 flex-wrap-reverse">
+        <x-section.column >
+            <img src="{{URL::asset('/images/features/email.png')}}"  />
+        </x-section.column>
+
+        <x-section.column>
+            <div x-intersect="$el.classList.add('slide-in-top')">
+                <x-heading.h6 class="text-primary-500">
+                    {{ __('Strategic Business Intelligence') }}
+                </x-heading.h6>
+                <x-heading.h2 class="text-primary-900">
+                    {{ __('AI-Powered Analytics & Insights') }}
+                </x-heading.h2>
+            </div>
+
+            <p class="mt-4">
+                {{ __('Get comprehensive business analytics with automated SWOT analysis, risk assessments, and strategic recommendations. Track team productivity, marketing ROI across social platforms, and business metrics aggregated automatically.') }}
+            </p>
+            <p class="mt-4">
+                {{ __('AI detects spending anomalies, forecasts tax obligations, identifies optimization opportunities, and provides actionable insights through natural language queries. Make data-driven decisions with confidence.') }}
+            </p>
+        </x-section.column>
+
+    </x-section.columns>
+
+    <x-section.columns class="max-w-none md:max-w-6xl" >
+        <x-section.column>
+            <div x-intersect="$el.classList.add('slide-in-top')">
+                <x-heading.h6 class="text-primary-500">
+                    {{ __('Marketing & Social Media') }}
+                </x-heading.h6>
+                <x-heading.h2 class="text-primary-900">
+                    {{ __('Multi-Channel Marketing Management') }}
+                </x-heading.h2>
+            </div>
+
+            <p class="mt-4">
+                {{ __('Connect and manage Facebook, Instagram, LinkedIn, and Twitter accounts from one dashboard. Track engagement metrics, analyze sentiment, and measure campaign performance across all platforms.') }}
+            </p>
+            <p class="mt-4">
+                {{ __('Create and schedule email campaigns with beautiful templates. Track opens, clicks, and conversions. Get AI-powered marketing insights and recommendations to optimize your campaigns.') }}
+            </p>
+        </x-section.column>
+
+        <x-section.column>
+            <img src="{{URL::asset('/images/features/blog.png')}}" />
+        </x-section.column>
+
+    </x-section.columns>
+
+    <x-section.columns class="max-w-none md:max-w-6xl mt-16 flex-wrap-reverse">
+        <x-section.column >
+            <img src="{{URL::asset('/images/features/login.png')}}" />
+        </x-section.column>
+
+        <x-section.column>
+            <div x-intersect="$el.classList.add('slide-in-top')">
+                <x-heading.h6 class="text-primary-500">
+                    {{ __('Enterprise Security') }}
+                </x-heading.h6>
+                <x-heading.h2 class="text-primary-900">
+                    {{ __('Secure Password & Data Vault') }}
+                </x-heading.h2>
+            </div>
+
+            <p class="mt-4">
+                {{ __('Store sensitive credentials, API keys, and business passwords in an encrypted vault. Industry-standard encryption protects your data. Organize secrets by category, set expiration reminders, and control team access with granular permissions.') }}
+            </p>
+
+            <p class="mt-4">
+                {{ __('Complete audit trails track every access. Two-factor authentication and role-based access control ensure only authorized team members can view sensitive information.') }}
+            </p>
+        </x-section.column>
+
+    </x-section.columns>
+
+
+    <div class="text-center mt-16" x-intersect="$el.classList.add('slide-in-top')">
+        <x-heading.h6 class="text-primary-500">
+            {{ __('Beautiful & Intuitive') }}
+        </x-heading.h6>
+        <x-heading.h2 class="text-primary-900">
+            {{ __('Unified Business Dashboard') }}
+        </x-heading.h2>
+    </div>
+
+    <p class="text-center py-4">{{ __('Manage your entire business from one powerful dashboard - finances, clients, tasks, documents, appointments, and analytics all in one place.') }}</p>
+
+    <div class="text-center pt-6 mx-auto max-w-5xl ">
+        <img src="{{URL::asset('/images/features/admin-panel.png')}}" >
+    </div>
+
+
+    <div class="text-center mt-16" x-intersect="$el.classList.add('slide-in-top')">
+        <x-heading.h6 class="text-primary-500">
+            {{ __('Oh, we\'re not done yet') }}
+        </x-heading.h6>
+        <x-heading.h2 class="text-primary-900">
+            {{ __('And a whole lot more') }}
+        </x-heading.h2>
+    </div>
+
+    <x-section.columns class="max-w-none md:max-w-6xl mt-6">
+        <x-section.column class="flex flex-col items-center justify-center text-center">
+            <x-icon.fancy name="users" class="w-2/5 mx-auto" />
+            <x-heading.h3 class="mx-auto pt-2">
+                {{ __('Invoice & Payment Management') }}
+            </x-heading.h3>
+            <p class="mt-2">{{ __('Create professional invoices, track payments, send automated reminders, and manage client billing seamlessly.') }}</p>
+        </x-section.column>
+
+        <x-section.column class="flex flex-col items-center justify-center text-center">
+            <x-icon.fancy name="translatable" class="w-2/5 mx-auto" />
+            <x-heading.h3 class="mx-auto pt-2">
+                {{ __('Tax Compliance & Filing') }}
+            </x-heading.h3>
+            <p class="mt-2">{{ __('Automated tax calculations, quarterly reports, deadline reminders, and AI-powered compliance monitoring.') }}</p>
+        </x-section.column>
+
+        <x-section.column class="flex flex-col items-center justify-center text-center">
+            <x-icon.fancy name="seo" class="w-2/5 mx-auto" />
+            <x-heading.h3 class="mx-auto pt-2">
+                {{ __('Business Onboarding') }}
+            </x-heading.h3>
+            <p class="mt-2">{{ __('Smart onboarding wizard captures your business profile and generates instant strategic analysis and recommendations.') }}</p>
+        </x-section.column>
+
+    </x-section.columns>
+
+    <x-section.columns class="max-w-none md:max-w-6xl mt-6">
+        <x-section.column class="flex flex-col items-center justify-center text-center">
+            <x-icon.fancy name="user-dashboard" class="w-2/5 mx-auto" />
+            <x-heading.h3 class="mx-auto pt-2">
+                {{ __('Team Collaboration') }}
+            </x-heading.h3>
+            <p class="mt-2">{{ __('Track team productivity metrics, assign tasks, share documents, and monitor staff performance with automated reporting.') }}</p>
+        </x-section.column>
+
+        <x-section.column class="flex flex-col items-center justify-center text-center">
+            <x-icon.fancy name="tool" class="w-2/5 mx-auto" />
+            <x-heading.h3 class="mx-auto pt-2">
+                {{ __('Automated Reminders') }}
+            </x-heading.h3>
+            <p class="mt-2">{{ __('Never miss deadlines with automated reminders for tasks, appointments, invoices, tax filings, and follow-ups.') }}</p>
+        </x-section.column>
+
+        <x-section.column class="flex flex-col items-center justify-center text-center">
+            <x-icon.fancy name="development" class="w-2/5 mx-auto" />
+            <x-heading.h3 class="mx-auto pt-2">
+                {{ __('Real-time Sync') }}
+            </x-heading.h3>
+            <p class="mt-2">{{ __('Connect Google Calendar, Outlook, social media platforms, and financial accounts for automatic data synchronization.') }}</p>
+        </x-section.column>
+
+    </x-section.columns>
+
+    <div class="text-center mt-24 mx-4">
+        <x-heading.h6 class="text-primary-500">
+            {{ __('Everything You Need') }}
+        </x-heading.h6>
+        <x-heading.h2 class="text-primary-900">
+            {{ __('Complete Business Management Suite') }}
+        </x-heading.h2>
+    </div>
+
+    <p class="text-center p-4">{{ __('From financial tracking to client management, from task automation to strategic planning - WhizIQ brings all your business operations under one intelligent platform powered by AI.') }}</p>
+
+
+    <div class="text-center mt-24" x-intersect="$el.classList.add('slide-in-top')">
+        <x-heading.h6 class="text-primary-500">
+            {{ __('Built on Modern Technology') }}
+        </x-heading.h6>
+        <x-heading.h2 class="text-primary-900">
+            {{ __('Powerful, Scalable & Secure') }}
+        </x-heading.h2>
+    </div>
+
+    <div class="mx-4">
+        <div class="max-w-none md:max-w-6xl mx-auto text-center">
+            <p class="mt-4">
+                {{ __('WhizIQ is built with Laravel 12, Filament 4, and powered by OpenAI for intelligent automation. Enterprise-grade security, real-time updates with Livewire, and a beautiful interface built with TailwindCSS.') }}
+            </p>
+        </div>
+    </div>
+
+    <div class="mx-4 mt=16">
+        <x-heading.h6 class="text-center mt-20 text-primary-500" id="pricing">
+            {{ __('Start Managing Smarter Today') }}
+        </x-heading.h6>
+        <x-heading.h2 class="text-primary-900 text-center">
+            {{ __('Choose Your Plan') }}
+        </x-heading.h2>
+    </div>
+
+    <div class="pricing">
+        <x-plans.all calculate-saving-rates="true" show-default-product="1"/>
+        <x-products.all />
+    </div>
+
+    <div class="text-center mt-24 mx-4" id="faq">
+        <x-heading.h6 class="text-primary-500">
+            {{ __('FAQ') }}
+        </x-heading.h6>
+        <x-heading.h2 class="text-primary-900">
+            {{ __('Got a Question?') }}
+        </x-heading.h2>
+        <p>{{ __('Here are the most common questions to help you with your decision.') }}</p>
+    </div>
+
+    <div class="max-w-none md:max-w-6xl mx-auto">
+        <x-accordion class="mt-4 p-8">
+            <x-accordion.item active="true" name="faqs">
+                <x-slot name="title">{{ __('What is WhizIQ?') }}</x-slot>
+
+                <p>
+                    {{ __('WhizIQ is an all-in-one intelligent business management platform that helps you manage finances, clients, tasks, documents, appointments, and strategic planning from a unified dashboard. Powered by AI, it automates routine tasks, provides actionable insights, and keeps your entire business organized in one place.') }}
+                </p>
+
+            </x-accordion.item>
+
+            <x-accordion.item active="false" name="faqs">
+                <x-slot name="title">{{ __('What features does WhizIQ offer?') }}</x-slot>
+
+                <p class="mt-4">
+                    {{ __('Here are the core features included in WhizIQ:') }}
+                </p>
+
+                <ul class="mt-4 list-disc ms-4 ps-4">
+                    <li>{{ __('Financial Management: Track expenses with AI auto-categorization, manage invoices and payments, monitor cash flow, and get financial health alerts.') }}</li>
+                    <li>{{ __('Tax Compliance: Automated tax calculations, quarterly reports, deadline reminders, and AI-powered compliance monitoring.') }}</li>
+                    <li>{{ __('Document Vault: Enterprise-grade document management with AI analysis, version control, sharing permissions, and full-text search.') }}</li>
+                    <li>{{ __('CRM &amp; Sales: Manage contacts, visualize deal pipeline, track interactions, and send email campaigns with sentiment analysis.') }}</li>
+                    <li>{{ __('Task Management: AI extracts tasks from notes, kanban board view, smart priority recommendations, and OKR-style goal tracking.') }}</li>
+                    <li>{{ __('Appointment Booking: Public booking pages, calendar sync (Google/Outlook), automatic Zoom/Meet links, and customizable availability.') }}</li>
+                    <li>{{ __('Business Analytics: Automated SWOT analysis, risk assessments, team productivity tracking, and marketing ROI across platforms.') }}</li>
+                    <li>{{ __('Marketing Management: Connect social media accounts, track engagement, schedule campaigns, and get AI-powered insights.') }}</li>
+                    <li>{{ __('Password Vault: Encrypted storage for credentials, API keys, and sensitive data with audit trails and access control.') }}</li>
+                    <li>{{ __('Automated Reminders: Never miss deadlines for tasks, appointments, invoices, tax filings, and follow-ups.') }}</li>
+                    <li>{{ __('Real-time Sync: Automatic data synchronization with Google Calendar, Outlook, social platforms, and financial accounts.') }}</li>
+                    <li>{{ __('AI-Powered: OpenAI integration for document analysis, task extraction, sentiment analysis, and strategic recommendations.') }}</li>
+                    <li>{{ __('And much more...') }}</li>
+                </ul>
+
+            </x-accordion.item>
+
+            <x-accordion.item active="false" name="faqs">
+                <x-slot name="title">{{ __('What integrations does WhizIQ support?') }}</x-slot>
+
+                <p>
+                    {{ __('WhizIQ integrates with Google Calendar, Outlook Calendar, Apple Calendar, Zoom, Google Meet, Facebook, Instagram, LinkedIn, Twitter, and financial platforms. The platform uses OpenAI for intelligent automation and supports multiple email providers including Mailgun, Postmark, and Amazon SES for notifications and campaigns.') }}
+                </p>
+
+            </x-accordion.item>
+
+            <x-accordion.item active="false" name="faqs">
+                <x-slot name="title">{{ __('Do you offer support?') }}</x-slot>
+
+                <p>
+                    {{ __('Of course! we offer email and discord support to help you with any issues you might face or questions you have. Write us an email at') }} <a href="mailto:{{config('app.support_email')}}" class="text-primary-500 hover:underline">{{config('app.support_email')}}</a> {{ __('or join our') }} <a href="{{config('app.social_links.discord')}}">{{ __('discord server')}}</a> {{ __('to get help.')}}
+                </p>
+
+            </x-accordion.item>
+
+            <x-accordion.item active="false" name="faqs">
+                <x-slot name="title">{{'What technology is WhizIQ built on?'}}</x-slot>
+
+                <p>
+                    {{ __('WhizIQ is built on') }} <a href="https://laravel.com" target="_blank">Laravel 12</a> {{ __(', the most popular PHP framework, with') }} <a target="_blank" href="https://filamentphp.com/">Filament 4</a> {{ __(' providing the beautiful admin interface. It uses TailwindCSS for styling, Livewire for real-time updates, AlpineJS for interactivity, and OpenAI for intelligent automation.')}}
+                </p>
+                <p class="mt-4">
+                    {{ __('The platform supports MySQL, PostgreSQL, and SQLite databases, with queue management via Redis or Amazon SQS for background processing of tasks, notifications, and integrations.')}}
+                </p>
+
+            </x-accordion.item>
+
+            <x-accordion.item active="false" name="faqs">
+                <x-slot name="title">{{'How often is WhizzIQ updated?'}}</x-slot>
+
+                <p>
+                    {{ __('WhizzIQ is updated regularly to keep up with the latest Laravel and Filament versions, and to add new features and improvements.')}}
+                </p>
+
+            </x-accordion.item>
+
+            <x-accordion.item active="false" name="faqs">
+                <x-slot name="title">{{'Do you offer refunds?'}}</x-slot>
+
+                <p>
+                    {{ __('Yes, we offer a 14-day money-back guarantee. If you are not satisfied with WhizzIQ, you can request a refund within 14 days of your purchase. Please write us an email at') }} <a href="mailto:{{config('app.support_email')}}" class="text-primary-500 hover:underline">{{config('app.support_email')}}</a> {{ __('to request a refund.')}}
+                </p>
+
+            </x-accordion.item>
+
+            <x-accordion.item active="false" name="faqs">
+                <x-slot name="title">{{'Where can I host my SaaS application?'}}</x-slot>
+
+                <p>
+                    {{ __('You can host your SaaS application on any server that supports PHP, such as DigitalOcean, AWS, Hetzner, Linode, and more. You can also use a platform like Laravel Forge to manage your server and deploy your application.')}}
+                </p>
+
+            </x-accordion.item>
+
+            <x-accordion.item active="false" name="faqs">
+                <x-slot name="title">{{'Is there a demo available?'}}</x-slot>
+
+                <p>
+                    {{ __('Yes, a demo is available to help you get a feel of WhizzIQ. You can find the demo') }} <a href="https://WhizzIQ.com/demo" target="_blank" rel=”nofollow” >here</a>.
+                </p>
+
+            </x-accordion.item>
+
+            <x-accordion.item active="false" name="faqs">
+                <x-slot name="title">{{'Is there documentation available?'}}</x-slot>
+
+                <p>
+                    {{ __('Yes, an extensive documentation is available to help you get started with WhizzIQ. You can find the documentation ')}} <a href="https://WhizzIQ.com/docs" target="_blank">here</a>.
+                </p>
+
+            </x-accordion.item>
+
+            <x-accordion.item active="false" name="faqs">
+                <x-slot name="title">{{'Who is WhizIQ for?'}}</x-slot>
+
+                <p>
+                    {{__('WhizIQ is perfect for small to medium-sized businesses, consultants, freelancers, agencies, and entrepreneurs who need to manage multiple aspects of their business from one platform. Whether you\'re tracking finances, managing clients, organizing tasks, or analyzing business performance, WhizIQ provides the tools you need.')}}
+                </p>
+                <p class="mt-4">
+                    {{__('The AI-powered features make it especially valuable for busy professionals who want to automate routine tasks like expense categorization, task extraction from notes, document analysis, and strategic insights generation.')}}
+                </p>
+
+                <p class="mt-4">
+                    {{__('If you\'re tired of juggling multiple tools for accounting, CRM, project management, document storage, and scheduling - WhizIQ brings everything together in one beautiful, intelligent platform.')}}
+                </p>
+
+            </x-accordion.item>
+        </x-accordion>
+    </div>
+
+</x-layouts.app>

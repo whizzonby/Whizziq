@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             RolesAndPermissionsSeeder::class,
             EmailProvidersSeeder::class,
             VerificationProvidersSeeder::class,
+            SubscriptionPlansSeeder::class, // Auto-create subscription plans from JSON
         ]);
     }
 }

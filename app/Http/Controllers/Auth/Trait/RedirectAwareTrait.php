@@ -15,12 +15,26 @@ trait RedirectAwareTrait
             return route('home');
         }
 
-        if (Redirect::getIntendedUrl() !== null && rtrim(Redirect::getIntendedUrl(), '/') !== rtrim((route('home')), '/')) {
-            return Redirect::getIntendedUrl();
+        // Skip email verification and onboarding for admins
+        if ($user->is_admin) {
+            if (Redirect::getIntendedUrl() !== null && rtrim(Redirect::getIntendedUrl(), '/') !== rtrim((route('home')), '/')) {
+                return Redirect::getIntendedUrl();
+            }
+            return route('filament.admin.pages.dashboard');
         }
 
-        if ($user->is_admin) {
-            return route('filament.admin.pages.dashboard');
+        // Redirect to email verification if not verified (non-admins only)
+        if (! $user->hasVerifiedEmail()) {
+            return route('verification.notice');
+        }
+
+        // Check if onboarding is required (only for non-admin users)
+        if (! $user->onboardingData) {
+            return route('filament.dashboard.pages.onboarding');
+        }
+
+        if (Redirect::getIntendedUrl() !== null && rtrim(Redirect::getIntendedUrl(), '/') !== rtrim((route('home')), '/')) {
+            return Redirect::getIntendedUrl();
         }
 
         return route('filament.dashboard.pages.dashboard');

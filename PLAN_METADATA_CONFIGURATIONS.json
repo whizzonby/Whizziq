@@ -1,0 +1,254 @@
+{
+  "INSTRUCTIONS": "Copy the metadata below for each plan and paste into the Product Metadata section in your SaaSykit admin panel. Each plan (Starter, Pro, Premium) should have its own product with these metadata key-value pairs.",
+
+  "STARTER_PLAN_METADATA": {
+    "crm_contacts_limit": "500",
+    "crm_deals_limit": "25",
+    "crm_segments": "false",
+    "crm_import_export": "false",
+    "crm_duplicate_detection": "false",
+    "crm_sentiment_analysis": "false",
+
+    "finance_invoices_limit": "50",
+    "finance_templates_limit": "3",
+    "finance_automated_reminders": "false",
+    "finance_forecasting": "false",
+    "finance_integrations": "false",
+    "finance_auto_categorization": "false",
+
+    "tax_enabled": "false",
+    "tax_documents_limit": "0",
+    "tax_ocr": "false",
+    "tax_optimization_ai": "false",
+    "tax_forecasting_ai": "false",
+
+    "appointments_limit": "50",
+    "appointments_types_limit": "5",
+    "appointments_recurring": "false",
+    "appointments_calendar_sync": "false",
+    "appointments_meeting_platforms": "false",
+    "appointments_analytics": "false",
+
+    "email_templates_limit": "5",
+    "email_ai_generation": "false",
+    "email_scheduled": "false",
+    "email_campaigns_limit": "0",
+
+    "documents_storage_gb": "1",
+    "documents_ai_analysis": "false",
+    "documents_task_extraction": "false",
+    "documents_version_control": "false",
+    "documents_sharing": "false",
+
+    "passwords_limit": "50",
+    "passwords_health_monitoring": "false",
+    "passwords_audit_logs": "false",
+
+    "tasks_limit": "100",
+    "tasks_ai_priority": "false",
+    "tasks_kanban": "false",
+    "goals_enabled": "false",
+
+    "analytics_widgets_limit": "5",
+    "analytics_marketing": "false",
+    "analytics_social_integration": "false",
+    "analytics_staff_productivity": "false",
+
+    "ai_daily_limit": "20",
+    "ai_document_analysis_limit": "5",
+    "ai_email_features": "false",
+    "ai_task_features": "false",
+    "ai_swot_risk": "false",
+    "ai_anomaly_detection": "false",
+    "ai_forecasting": "false",
+    "ai_tax_optimization": "false",
+    "ai_ocr": "false",
+    "ai_sentiment": "false",
+    "ai_auto_categorization": "false",
+    "ai_marketing_insights": "false",
+    "ai_business_insights": "false",
+
+    "automation_reminders": "manual",
+    "automation_scheduled_emails": "false",
+    "automation_expense_categorization": "false",
+    "automation_marketing_sync": "false",
+
+    "integrations_calendar": "false",
+    "integrations_meetings": "false",
+    "integrations_accounting": "false",
+    "integrations_social_oauth": "false",
+
+    "support_level": "standard"
+  },
+
+  "PRO_PLAN_METADATA": {
+    "crm_contacts_limit": "unlimited",
+    "crm_deals_limit": "unlimited",
+    "crm_segments": "true",
+    "crm_import_export": "true",
+    "crm_duplicate_detection": "manual",
+    "crm_sentiment_analysis": "false",
+
+    "finance_invoices_limit": "unlimited",
+    "finance_templates_limit": "unlimited",
+    "finance_automated_reminders": "true",
+    "finance_forecasting": "basic",
+    "finance_integrations": "false",
+    "finance_auto_categorization": "false",
+
+    "tax_enabled": "true",
+    "tax_documents_limit": "100",
+    "tax_ocr": "false",
+    "tax_optimization_ai": "false",
+    "tax_forecasting_ai": "false",
+
+    "appointments_limit": "unlimited",
+    "appointments_types_limit": "unlimited",
+    "appointments_recurring": "true",
+    "appointments_calendar_sync": "true",
+    "appointments_meeting_platforms": "true",
+    "appointments_analytics": "basic",
+
+    "email_templates_limit": "unlimited",
+    "email_ai_generation": "false",
+    "email_scheduled": "true",
+    "email_campaigns_limit": "500",
+
+    "documents_storage_gb": "5",
+    "documents_ai_analysis": "false",
+    "documents_task_extraction": "false",
+    "documents_version_control": "true",
+    "documents_sharing": "true",
+
+    "passwords_limit": "200",
+    "passwords_health_monitoring": "true",
+    "passwords_audit_logs": "false",
+
+    "tasks_limit": "unlimited",
+    "tasks_ai_priority": "false",
+    "tasks_kanban": "true",
+    "goals_enabled": "true",
+
+    "analytics_widgets_limit": "15",
+    "analytics_marketing": "basic",
+    "analytics_social_integration": "readonly",
+    "analytics_staff_productivity": "true",
+
+    "ai_daily_limit": "75",
+    "ai_document_analysis_limit": "20",
+    "ai_email_features": "false",
+    "ai_task_features": "false",
+    "ai_swot_risk": "false",
+    "ai_anomaly_detection": "false",
+    "ai_forecasting": "false",
+    "ai_tax_optimization": "false",
+    "ai_ocr": "false",
+    "ai_sentiment": "false",
+    "ai_auto_categorization": "false",
+    "ai_marketing_insights": "false",
+    "ai_business_insights": "false",
+
+    "automation_reminders": "automated",
+    "automation_scheduled_emails": "true",
+    "automation_expense_categorization": "false",
+    "automation_marketing_sync": "daily",
+
+    "integrations_calendar": "true",
+    "integrations_meetings": "true",
+    "integrations_accounting": "false",
+    "integrations_social_oauth": "basic",
+
+    "support_level": "priority"
+  },
+
+  "PREMIUM_PLAN_METADATA": {
+    "crm_contacts_limit": "unlimited",
+    "crm_deals_limit": "unlimited",
+    "crm_segments": "true",
+    "crm_import_export": "true",
+    "crm_duplicate_detection": "ai",
+    "crm_sentiment_analysis": "true",
+
+    "finance_invoices_limit": "unlimited",
+    "finance_templates_limit": "unlimited",
+    "finance_automated_reminders": "true",
+    "finance_forecasting": "ai",
+    "finance_integrations": "true",
+    "finance_auto_categorization": "true",
+
+    "tax_enabled": "true",
+    "tax_documents_limit": "unlimited",
+    "tax_ocr": "true",
+    "tax_optimization_ai": "true",
+    "tax_forecasting_ai": "true",
+
+    "appointments_limit": "unlimited",
+    "appointments_types_limit": "unlimited",
+    "appointments_recurring": "true",
+    "appointments_calendar_sync": "true",
+    "appointments_meeting_platforms": "true",
+    "appointments_analytics": "advanced",
+
+    "email_templates_limit": "unlimited",
+    "email_ai_generation": "true",
+    "email_scheduled": "true",
+    "email_campaigns_limit": "unlimited",
+
+    "documents_storage_gb": "unlimited",
+    "documents_ai_analysis": "true",
+    "documents_task_extraction": "true",
+    "documents_version_control": "true",
+    "documents_sharing": "true",
+
+    "passwords_limit": "unlimited",
+    "passwords_health_monitoring": "true",
+    "passwords_audit_logs": "true",
+
+    "tasks_limit": "unlimited",
+    "tasks_ai_priority": "true",
+    "tasks_kanban": "true",
+    "goals_enabled": "true",
+
+    "analytics_widgets_limit": "unlimited",
+    "analytics_marketing": "advanced",
+    "analytics_social_integration": "oauth",
+    "analytics_staff_productivity": "true",
+
+    "ai_daily_limit": "200",
+    "ai_document_analysis_limit": "unlimited",
+    "ai_email_features": "true",
+    "ai_task_features": "true",
+    "ai_swot_risk": "true",
+    "ai_anomaly_detection": "true",
+    "ai_forecasting": "true",
+    "ai_tax_optimization": "true",
+    "ai_ocr": "true",
+    "ai_sentiment": "true",
+    "ai_auto_categorization": "true",
+    "ai_marketing_insights": "true",
+    "ai_business_insights": "true",
+
+    "automation_reminders": "ai_optimized",
+    "automation_scheduled_emails": "true",
+    "automation_expense_categorization": "true",
+    "automation_marketing_sync": "realtime",
+
+    "integrations_calendar": "true",
+    "integrations_meetings": "true",
+    "integrations_accounting": "true",
+    "integrations_social_oauth": "full",
+
+    "support_level": "premium"
+  },
+
+  "HOW_TO_USE": {
+    "step_1": "Go to your SaaSykit admin panel",
+    "step_2": "Navigate to Products section",
+    "step_3": "Create or edit products for each tier (Starter, Pro, Premium)",
+    "step_4": "For each product, go to the Metadata section",
+    "step_5": "Add each key-value pair from the corresponding plan metadata above",
+    "step_6": "Save the product",
+    "step_7": "Create plans linked to these products with your pricing ($29.99, $39.99, $49.99)",
+    "step_8": "Users will automatically get the correct features based on their active subscription"
+  }
+}

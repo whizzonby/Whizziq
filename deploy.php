@@ -44,6 +44,10 @@ host($host)
 desc('Install & build npm packages');
 task('npm:build', function () {
     run('cd {{release_path}} && npm ci && npm run build');
+    
+    // Install Chrome/Chromium for Puppeteer (required for PDF generation)
+    info('Installing Chrome/Chromium for Puppeteer...');
+    run('cd {{release_path}} && npx puppeteer browsers install chrome');
 });
 
 desc('Provision extra PHP packages');
@@ -55,6 +59,51 @@ task('provision:php-extra', function () {
     ];
 
     run('apt-get install -y '.implode(' ', $packages), ['env' => ['DEBIAN_FRONTEND' => 'noninteractive']]);
+})->verbose()
+    ->limit(1);
+
+desc('Install Chrome dependencies for Puppeteer');
+task('provision:chrome-deps', function () {
+    info('Installing Chrome/Chromium system dependencies for Puppeteer...');
+    
+    $packages = [
+        'ca-certificates',
+        'fonts-liberation',
+        'libappindicator3-1',
+        'libasound2',
+        'libatk-bridge2.0-0',
+        'libatk1.0-0',
+        'libcairo2',
+        'libcups2',
+        'libdbus-1-3',
+        'libexpat1',
+        'libfontconfig1',
+        'libgbm1',
+        'libglib2.0-0',
+        'libgtk-3-0',
+        'libnspr4',
+        'libnss3',
+        'libpango-1.0-0',
+        'libpangocairo-1.0-0',
+        'libx11-6',
+        'libx11-xcb1',
+        'libxcb1',
+        'libxcomposite1',
+        'libxcursor1',
+        'libxdamage1',
+        'libxext6',
+        'libxfixes3',
+        'libxi6',
+        'libxrandr2',
+        'libxrender1',
+        'libxss1',
+        'libxtst6',
+        'lsb-release',
+        'wget',
+        'xdg-utils',
+    ];
+
+    run('apt-get update && apt-get install -y ' . implode(' ', $packages), ['env' => ['DEBIAN_FRONTEND' => 'noninteractive']]);
 })->verbose()
     ->limit(1);
 
@@ -119,6 +168,7 @@ after('artisan:migrate', 'npm:build');
 
 // php
 after('provision:php', 'provision:php-extra');
+after('provision:php-extra', 'provision:chrome-deps');
 after('provision:verify', 'provision:supervisor');
 after('provision:deployer', 'provision:fix-aws-ssh');
 

@@ -177,8 +177,9 @@ class SubscriptionService
     {
         return $this->findActiveUserSubscriptions($user)
             ->map(function (Subscription $subscription) {
-                return $subscription->plan->product;
-            });
+                return $subscription->plan?->product;
+            })
+            ->filter();
     }
 
     public function findActiveUserSubscriptionWithPlanType(int $userId, PlanType $planType): ?Subscription
@@ -232,7 +233,7 @@ class SubscriptionService
 
     public function shouldSkipTrial(Subscription $subscription)
     {
-        if ($this->isLocalSubscription($subscription) && $subscription->plan->has_trial) {
+        if ($this->isLocalSubscription($subscription) && $subscription->plan && $subscription->plan->has_trial) {
             return true;
         }
 
@@ -336,7 +337,7 @@ class SubscriptionService
 
     public function changePlan(Subscription $subscription, PaymentProviderInterface $paymentProviderStrategy, string $newPlanSlug, bool $isProrated = false): bool
     {
-        if ($subscription->plan->slug === $newPlanSlug) {
+        if (!$subscription->plan || $subscription->plan->slug === $newPlanSlug) {
             return false;
         }
 
@@ -419,7 +420,7 @@ class SubscriptionService
 
         if ($productSlug) {
             $subscriptions = $subscriptions->filter(function (Subscription $subscription) use ($productSlug) {
-                return $subscription->plan->product->slug === $productSlug;
+                return $subscription->plan && $subscription->plan->product && $subscription->plan->product->slug === $productSlug;
             });
         }
 
@@ -439,7 +440,7 @@ class SubscriptionService
 
         if ($productSlug) {
             $subscriptions = $subscriptions->filter(function (Subscription $subscription) use ($productSlug) {
-                return $subscription->plan->product->slug === $productSlug;
+                return $subscription->plan && $subscription->plan->product && $subscription->plan->product->slug === $productSlug;
             });
         }
 
@@ -458,25 +459,32 @@ class SubscriptionService
             ->get();
 
         if ($subscriptions->count() === 0) {
-            // if there is no active subscriptions, return metadata of default product
-            $defaultProduct = Product::where('is_default', true)->first();
-
-            if (! $defaultProduct) {
-                return [];
-            }
-
-            return $defaultProduct->metadata ?? [];
+            // Users without subscription get NO access - they must subscribe first
+            // This prevents revenue leak where users can use features without paying
+            return [];
         }
 
         // if there is 1 subscription, return metadata of its product
         if ($subscriptions->count() === 1) {
-            return $subscriptions->first()->plan->product->metadata ?? [];
+            $subscription = $subscriptions->first();
+            if ($subscription->plan && $subscription->plan->product) {
+                return $subscription->plan->product->metadata ?? [];
+            }
+            // If subscription has no plan/product, fallback to default product
+            $defaultProduct = Product::where('is_default', true)->first();
+            if ($defaultProduct) {
+                return $defaultProduct->metadata ?? [];
+            }
+            return [];
         }
 
         // if there are multiple subscriptions, return array of product-slug => metadata
         return $subscriptions->mapWithKeys(function (Subscription $subscription) {
-            return [$subscription->plan->product->slug => $subscription->plan->product->metadata ?? []];
-        })->toArray();
+            if ($subscription->plan && $subscription->plan->product) {
+                return [$subscription->plan->product->slug => $subscription->plan->product->metadata ?? []];
+            }
+            return [];
+        })->filter()->toArray();
     }
 
     public function canEditSubscriptionPaymentDetails(Subscription $subscription)
@@ -501,6 +509,10 @@ class SubscriptionService
 
     public function canChangeSubscriptionPlan(Subscription $subscription)
     {
+        if (!$subscription->plan) {
+            return false;
+        }
+
         return $subscription->type === SubscriptionType::PAYMENT_PROVIDER_MANAGED &&
             $this->planService->isPlanChangeable($subscription->plan) &&
             $subscription->status === SubscriptionStatus::ACTIVE->value;

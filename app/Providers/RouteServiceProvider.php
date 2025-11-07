@@ -35,6 +35,22 @@ class RouteServiceProvider extends ServiceProvider
 
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));
+
+            // OAuth route files
+            if (file_exists(base_path('routes/calendar.php'))) {
+                Route::middleware('web')
+                    ->group(base_path('routes/calendar.php'));
+            }
+
+            if (file_exists(base_path('routes/marketing.php'))) {
+                Route::middleware('web')
+                    ->group(base_path('routes/marketing.php'));
+            }
+
+            if (file_exists(base_path('routes/finance.php'))) {
+                Route::middleware('web')
+                    ->group(base_path('routes/finance.php'));
+            }
         });
     }
 }

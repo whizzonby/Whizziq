@@ -3,14 +3,18 @@
 namespace App\Providers\Filament;
 
 use App\Constants\AnnouncementPlacement;
+use App\Filament\Dashboard\Pages\AdvancedOnboardingPage;
+use App\Filament\Dashboard\Pages\Dashboard;
+use App\Filament\Dashboard\Pages\TwoFactorAuth\ConfirmTwoFactorAuth;
+use App\Filament\Dashboard\Pages\TwoFactorAuth\EnableTwoFactorAuth;
 use App\Filament\Dashboard\Pages\TwoFactorAuth\TwoFactorAuth;
+use App\Http\Middleware\EnsureEmailIsVerifiedUnlessAdmin;
 use App\Http\Middleware\UpdateUserLastSeenAt;
 use App\Livewire\AddressForm;
 use Filament\Actions\Action;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
-use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
@@ -25,6 +29,7 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Jeffgreco13\FilamentBreezy\BreezyCore;
+use Saasykit\FilamentOnboarding\FilamentOnboardingPlugin;
 
 class DashboardPanelProvider extends PanelProvider
 {
@@ -56,11 +61,17 @@ class DashboardPanelProvider extends PanelProvider
             ->discoverPages(in: app_path('Filament/Dashboard/Pages'), for: 'App\\Filament\\Dashboard\\Pages')
             ->pages([
                 Dashboard::class,
+                TwoFactorAuth::class,
+                EnableTwoFactorAuth::class,
+                ConfirmTwoFactorAuth::class,
             ])
             ->viteTheme('resources/css/filament/dashboard/theme.css')
+            // Widgets are now organized into specific dashboards
+            // Auto-discovery is enabled so widgets can be resolved when used in dashboard pages
+            // Widgets won't appear on main dashboard unless explicitly added to Dashboard::getHeaderWidgets() or getFooterWidgets()
             ->discoverWidgets(in: app_path('Filament/Dashboard/Widgets'), for: 'App\\Filament\\Dashboard\\Widgets')
             ->widgets([
-                AccountWidget::class,
+                //AccountWidget::class, //uncomment this to show the account widget in the dashboard
             ])
             ->middleware([
                 EncryptCookies::class,
@@ -82,7 +93,14 @@ class DashboardPanelProvider extends PanelProvider
             )
             ->authMiddleware([
                 Authenticate::class,
-            ])->plugins([
+                EnsureEmailIsVerifiedUnlessAdmin::class,
+            ])
+            ->plugins([
+                FilamentOnboardingPlugin::make()
+                    ->onboardingPage(AdvancedOnboardingPage::class)
+                    ->skippable(false)
+                    ->mandatoryOnboarding(true)
+                    ->enabledUsing(fn () => ! auth()->user()?->is_admin),
                 BreezyCore::make()
                     ->myProfile(
                         shouldRegisterUserMenu: true, // Sets the 'account' link in the panel User Menu (default = true)

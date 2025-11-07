@@ -1,0 +1,66 @@
+name: Deploy to Staging
+
+on:
+  push:
+    branches:
+      - develop
+  workflow_dispatch:
+
+env:
+  PHP_VERSION: '8.2'
+
+jobs:
+  deploy-staging:
+    name: Deploy to Staging (cPanel)
+    runs-on: ubuntu-latest
+    environment:
+      name: staging
+      url: ${{ secrets.STAGING_URL }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install NPM dependencies
+        run: npm ci
+
+      - name: Build assets
+        run: npm run build
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ env.PHP_VERSION }}
+          extensions: mbstring, xml, bcmath, pdo_mysql
+
+      - name: Install Composer dependencies
+        run: composer install --prefer-dist --optimize-autoloader --no-progress --no-interaction
+
+      - name: Deploy to staging via FTP/SFTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: ${{ secrets.STAGING_FTP_SERVER }}
+          username: ${{ secrets.STAGING_FTP_USERNAME }}
+          password: ${{ secrets.STAGING_FTP_PASSWORD }}
+          protocol: ${{ secrets.STAGING_FTP_PROTOCOL || 'ftp' }}
+          port: ${{ secrets.STAGING_FTP_PORT || '21' }}
+          local-dir: ./
+          server-dir: ${{ secrets.STAGING_FTP_DEPLOY_PATH }}
+          dangerous-clean-slate: false
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            **/.env
+            **/tests/**
+            **/storage/logs/**
+            **/storage/framework/cache/**
+            **/storage/framework/sessions/**
+            **/storage/framework/views/**
+

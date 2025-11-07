@@ -1,0 +1,47 @@
+{
+  "resources/css/app.css": {
+    "file": "assets/app-BDoK9vKF.css",
+    "src": "resources/css/app.css",
+    "isEntry": true,
+    "names": [
+      "app.css"
+    ]
+  },
+  "resources/css/filament/admin/theme.css": {
+    "file": "assets/theme-C6-v5Vfi.css",
+    "src": "resources/css/filament/admin/theme.css",
+    "isEntry": true,
+    "names": [
+      "theme.css"
+    ]
+  },
+  "resources/css/filament/dashboard/theme.css": {
+    "file": "assets/theme-Df5DHeCg.css",
+    "src": "resources/css/filament/dashboard/theme.css",
+    "isEntry": true,
+    "names": [
+      "theme.css"
+    ]
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-DbCWIEB_.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true
+  },
+  "resources/js/blog.js": {
+    "file": "assets/blog-C4rbWG_j.js",
+    "name": "blog",
+    "src": "resources/js/blog.js",
+    "isEntry": true,
+    "css": [
+      "assets/blog-BfC0goYb.css"
+    ]
+  },
+  "resources/js/components.js": {
+    "file": "assets/components-CLVWNfmZ.js",
+    "name": "components",
+    "src": "resources/js/components.js",
+    "isEntry": true
+  }
+}
